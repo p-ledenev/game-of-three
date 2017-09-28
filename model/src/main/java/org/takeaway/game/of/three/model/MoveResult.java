@@ -8,14 +8,6 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class MoveResult {
-    private final Integer value;
+    private final Integer newValue;
     private final Integer increment;
-
-    public boolean isWinning() {
-        return Integer.valueOf(1).equals(value);
-    }
-
-    public static MoveResult gameOver() {
-        return new MoveResult(0, 0);
-    }
 }

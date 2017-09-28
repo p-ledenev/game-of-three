@@ -20,15 +20,20 @@ public class GameController {
     }
 
     @RequestMapping(value = "/next-move", method = RequestMethod.POST)
-    public MoveResult performNextMove(@RequestBody MoveResult inputMove) {
+    public GameMoveResource performNextMove(@RequestBody GameMoveResource inputMove) {
         if (inputMove.isWinning()) {
             log.info("You lose");
-            return MoveResult.gameOver();
+            return GameMoveResource.gameOver();
         }
         MoveResult moveResult = nextMoveCalculator.calculate(inputMove.getValue());
-        log.info("Move result %s", moveResult);
-        if (moveResult.isWinning())
+        log.info("Move result {}", moveResult);
+        GameMoveResource response = from(moveResult);
+        if (response.isWinning())
             log.info("You win!");
-        return moveResult;
+        return response;
+    }
+
+    private GameMoveResource from(MoveResult moveResult) {
+        return new GameMoveResource(moveResult.getNewValue());
     }
 }
