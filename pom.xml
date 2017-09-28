@@ -45,6 +45,12 @@
                 <version>4.3.7.RELEASE</version>
                 <scope>test</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.takeaway</groupId>
+                <artifactId>model</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
