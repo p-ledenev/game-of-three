@@ -4,9 +4,11 @@ import static java.util.Objects.isNull;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.takeaway.game.of.three.server.api.GameMove;
 
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class GameMoveRepresentation implements GameMove {

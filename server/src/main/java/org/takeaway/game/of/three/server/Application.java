@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @Slf4j
-@SpringBootApplication(scanBasePackages = "org.takeaway.game.of.three.server")
+@SpringBootApplication(scanBasePackages = "org.takeaway.game.of.three")
 public class Application {
 
     public static void main(String[] args) {

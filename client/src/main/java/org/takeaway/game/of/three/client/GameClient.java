@@ -1,6 +1,7 @@
 package org.takeaway.game.of.three.client;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -15,23 +16,28 @@ public class GameClient {
     private final NextMoveCalculator nextMoveCalculator;
     private final String url;
 
+    @Autowired
     public GameClient(@Value("${server.url}") String url,
-                      NextMoveCalculator nextMoveCalculator) {
+                      NextMoveCalculator nextMoveCalculator,
+                      RestTemplate restTemplate) {
         this.url = url;
         this.nextMoveCalculator = nextMoveCalculator;
-        restTemplate = new RestTemplate();
+        this.restTemplate = restTemplate;
     }
 
     public void runGame(Integer initialValue) {
         GameMoveRepresentation nextMove = new GameMoveRepresentation(initialValue);
-        while (!nextMove.isWinning() || !nextMove.isOver()) {
+        while (!nextMove.isOver()) {
             try {
+                log.info("Sending move {}", nextMove);
                 GameMoveRepresentation respondMove = sendMove(nextMove);
+                log.info("Received move {}", respondMove);
                 nextMove = makeMove(respondMove.getValue());
                 validateRespondMove(respondMove);
                 validateNextMove(nextMove);
             } catch (Exception e) {
-                log.error("", e);
+                log.error("Server error", e);
+                break;
             }
         }
     }
@@ -48,7 +54,7 @@ public class GameClient {
 
     private GameMoveRepresentation makeMove(Integer value) {
         MoveResult moveResult = nextMoveCalculator.calculate(value);
-        log.info("Move result {}", moveResult);
+        log.info("Next move to send {}", moveResult);
         return new GameMoveRepresentation(moveResult.getNewValue());
     }
 

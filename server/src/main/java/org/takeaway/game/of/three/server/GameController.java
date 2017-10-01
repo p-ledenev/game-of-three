@@ -21,15 +21,17 @@ public class GameController {
 
     @RequestMapping(value = "/next-move", method = RequestMethod.POST)
     public GameMoveResource performNextMove(@RequestBody GameMoveResource inputMove) {
+        log.info("Received move: {}", inputMove);
         if (inputMove.isWinning()) {
-            log.info("You lose");
+            log.info("Server LOSE");
             return GameMoveResource.gameOver();
         }
         MoveResult moveResult = nextMoveCalculator.calculate(inputMove.getValue());
-        log.info("Move result {}", moveResult);
+        log.info("Next move to send {}", moveResult);
         GameMoveResource response = from(moveResult);
+        log.info("Sending move: {}", inputMove);
         if (response.isWinning())
-            log.info("You win!");
+            log.info("Server WIN");
         return response;
     }
 
