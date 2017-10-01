@@ -1,6 +1,6 @@
 <configuration>
     <property name="LOG_PATTERN" value="%d{dd.MM.yyyy HH:mm:ss.SSS} -%5p [%t] %-40.40logger{39} : %m%n"/>
-    <property name="FILE_LOG" value="log/server.log"/>
+    <property name="FILE_LOG" value="log/client.log"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
